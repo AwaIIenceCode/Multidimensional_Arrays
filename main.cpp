@@ -7,72 +7,38 @@ using namespace std;
 int main()
 {
     srand(time(NULL));
-
-    const int ROWS = 5;
-    const int COLS = 5;
-
+    const int ROWS = 3;
+    const int COLS = 4;
     int arr[ROWS][COLS];
-    int sum_elements = 0;
-    int count = 0;
+
+    int all_sum = 0;
 
     for (int i = 0; i < ROWS; i++)
     {
+        int row_sum = 0;
         for (int j = 0; j < COLS; j++)
         {
-            arr[i][j] = rand() % 30 - 10;
+            arr[i][j] = rand() % 12;
+            cout << setfill(' ') << setw(2) << arr[i][j] << "   ";
+            all_sum += arr[i][j];
+            row_sum += arr[i][j];
         }
-    }
-
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            sum_elements += arr[i][j];
-            count += 1;
-        }
-    }
-
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            cout << setfill(' ') << setw(2) << arr[i][j] << " ";
-        }
+        cout << "|  " << row_sum;
         cout << endl;
     }
 
-    double arithmetic_mean = sum_elements / (count * 1.0);
+    cout << "__________________________" << endl;
 
-    int min_element = arr[0][0];
-
-    for (int i = 0; i < ROWS; i++)
+    for (int j = 0; j < COLS; j++)
     {
-        for (int j = 0; j < COLS; j++)
+        int col_sum = 0;
+        for (int i = 0; i < ROWS; i++)
         {
-            if (min_element > arr[i][j])
-            {
-                min_element = arr[i][j];
-            }
+                col_sum += arr[i][j];
         }
+        cout << col_sum << "   ";
     }
-
-    int max_element = arr[0][0];
-
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            if (max_element < arr[i][j])
-            {
-                max_element = arr[i][j];
-            }
-        }
-    }
-
-    cout << "\nSum of your elements -> " << sum_elements;
-    cout << "\nYour arithmetic mean -> " << arithmetic_mean;
-    cout << "\nYour minimum element -> " << min_element;
-    cout << "\nYour maximum element -> " << max_element;
+    cout << " |  " << all_sum;
 
     return 0;
 }
