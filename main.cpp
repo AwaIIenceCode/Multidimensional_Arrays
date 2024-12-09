@@ -1,44 +1,46 @@
 #include <iostream>
-#include <ctime>
 #include <iomanip>
+#include <ctime>
 
 using namespace std;
 
 int main()
 {
     srand(time(NULL));
-    const int ROWS = 3;
-    const int COLS = 4;
-    int arr[ROWS][COLS];
 
-    int all_sum = 0;
+    const int FIRST_RAWS = 5;
+    const int FIRST_COLS = 10;
+    const int SECOND_RAWS = 5;
+    const int SECOND_COLS = 5;
 
-    for (int i = 0; i < ROWS; i++)
+    int first_arr[FIRST_RAWS][FIRST_COLS];
+    int second_arr[SECOND_RAWS][SECOND_COLS];
+
+    cout << "\nYour first array ->\n" << endl;
+
+    for (int i = 0; i < FIRST_RAWS; i++)
     {
-        int row_sum = 0;
-        for (int j = 0; j < COLS; j++)
+        for (int j = 0; j < FIRST_COLS; j++)
         {
-            arr[i][j] = rand() % 12;
-            cout << setfill(' ') << setw(2) << arr[i][j] << "   ";
-            all_sum += arr[i][j];
-            row_sum += arr[i][j];
+            first_arr[i][j] = rand() % 51;
+            cout << setfill(' ') << setw(2) << first_arr[i][j] << "   ";
         }
-        cout << "|  " << row_sum;
         cout << endl;
     }
 
-    cout << "__________________________" << endl;
+    cout << endl;
 
-    for (int j = 0; j < COLS; j++)
+    cout << "\nYour second array ->\n" << endl;
+
+    for (int i = 0; i < SECOND_RAWS; i++)
     {
-        int col_sum = 0;
-        for (int i = 0; i < ROWS; i++)
+        for (int j = 0; j < SECOND_COLS; j++)
         {
-                col_sum += arr[i][j];
+            second_arr[i][j] = first_arr[i][j * 2] + first_arr[i][j * 2 + 1];
+            cout << setfill(' ')<< setw(3) << second_arr[i][j] << "   ";
         }
-        cout << col_sum << "   ";
+        cout << endl;
     }
-    cout << " |  " << all_sum;
 
     return 0;
 }
