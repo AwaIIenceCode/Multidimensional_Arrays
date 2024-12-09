@@ -1,43 +1,37 @@
 #include <iostream>
 #include <iomanip>
-#include <ctime>
 
 using namespace std;
 
 int main()
 {
-    srand(time(NULL));
+    const int RAWS = 3;
+    const int COLS = 3;
+    int arr[RAWS][COLS];
 
-    const int FIRST_RAWS = 5;
-    const int FIRST_COLS = 10;
-    const int SECOND_RAWS = 5;
-    const int SECOND_COLS = 5;
+    int user_number;
+    cout << "Enter the number -> ";
+    cin >> user_number;
 
-    int first_arr[FIRST_RAWS][FIRST_COLS];
-    int second_arr[SECOND_RAWS][SECOND_COLS];
-
-    cout << "\nYour first array ->\n" << endl;
-
-    for (int i = 0; i < FIRST_RAWS; i++)
+    for (int i = 0; i < RAWS; i++)
     {
-        for (int j = 0; j < FIRST_COLS; j++)
+        for (int j = 0; j < COLS; j++)
         {
-            first_arr[i][j] = rand() % 51;
-            cout << setfill(' ') << setw(2) << first_arr[i][j] << "   ";
-        }
-        cout << endl;
-    }
+            if (i == 0 && j == 0)
+            {
+                arr[i][j] = user_number;
+            }
 
-    cout << endl;
+            else if (j == 0)
+            {
+                arr[i][j] = arr[i - 1][COLS - 1] * 2;
+            }
 
-    cout << "\nYour second array ->\n" << endl;
-
-    for (int i = 0; i < SECOND_RAWS; i++)
-    {
-        for (int j = 0; j < SECOND_COLS; j++)
-        {
-            second_arr[i][j] = first_arr[i][j * 2] + first_arr[i][j * 2 + 1];
-            cout << setfill(' ')<< setw(3) << second_arr[i][j] << "   ";
+            else
+            {
+                arr[i][j] = arr[i][j - 1] * 2;
+            }
+            cout << setfill(' ') << setw(4) << arr[i][j];
         }
         cout << endl;
     }
