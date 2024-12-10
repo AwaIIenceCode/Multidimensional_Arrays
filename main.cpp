@@ -1,45 +1,154 @@
-//Напишіть програму, яка створює двовимірний масив і заповнює його за таким принципом:
-// користувач вводить число (наприклад, 3); перший елемент масиву набуває значення цього числа;
-// наступний елемент масиву набуває значення цього числа + 1 (тобто 4 для нашого прикладу);
-// третій елемент масиву — попередній елемент + 1 (тобто 5 для нашого прикладу). Створений масив вивести на екран.
-
 #include <iostream>
+#include <ctime>
 #include <iomanip>
 
 using namespace std;
 
-int main()
+const int RAWS = 5;
+const int COLS = 5;
+
+void array_filling(int arr[][COLS], int rows, int cols)
 {
-    const int RAWS = 9;
-    const int COLS = 9;
-    int arr[RAWS][COLS];
-
-    int user_number;
-    cout << "Enter the number -> ";
-    cin >> user_number;
-
-    for (int i = 0; i < RAWS; i++)
+    for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < COLS; j++)
+        for (int j = 0; j < cols; j++)
         {
-            if (i == 0 && j == 0)
-            {
-                arr[i][j] = user_number;
-            }
+            arr[i][j] = rand() % 26;
+        }
+    }
+}
 
-            else if (j == 0)
-            {
-                arr[i][j] = arr[i - 1][COLS - 1] + 1;
-            }
-
-            else
-            {
-                arr[i][j] = arr[i][j - 1] + 1;
-            }
-            cout << setfill(' ') << setw(3) << arr[i][j];
+void printArray(int arr[][COLS], int rows, int cols)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cout << setw(3) << arr[i][j] << " ";
         }
         cout << endl;
     }
+}
+
+void shiftLeft(int arr[][COLS], int rows, int cols, int shifts)
+{
+    shifts %= cols;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int s = 0; s < shifts; s++)
+        {
+            int temp = arr[i][0];
+            for (int j = 0; j < cols - 1; j++)
+            {
+                arr[i][j] = arr[i][j + 1];
+            }
+            arr[i][cols - 1] = temp;
+        }
+    }
+}
+
+void shiftRight(int arr[][COLS], int rows, int cols, int shifts)
+{
+    shifts %= cols;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int s = 0; s < shifts; s++)
+        {
+            int temp = arr[i][cols - 1];
+            for (int j = cols - 1; j > 0; j--)
+            {
+                arr[i][j] = arr[i][j - 1];
+            }
+            arr[i][0] = temp;
+        }
+    }
+}
+
+void shiftUp(int arr[][COLS], int rows, int cols, int shifts)
+{
+    shifts %= rows;
+    for (int s = 0; s < shifts; s++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            int temp = arr[0][j];
+            for (int i = 0; i < rows - 1; i++)
+            {
+                arr[i][j] = arr[i + 1][j];
+            }
+            arr[rows - 1][j] = temp;
+        }
+    }
+}
+
+void shiftDown(int arr[][COLS], int rows, int cols, int shifts)
+{
+    shifts %= rows;
+    for (int s = 0; s < shifts; s++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            int temp = arr[rows - 1][j];
+            for (int i = rows - 1; i > 0; i--)
+            {
+                arr[i][j] = arr[i - 1][j];
+            }
+            arr[0][j] = temp;
+        }
+    }
+}
+
+int main()
+{
+    srand(time(NULL));
+
+    int arr[RAWS][COLS];
+
+    array_filling(arr, RAWS, COLS);
+    cout << "Original array:\n";
+    printArray(arr, RAWS, COLS);
+
+    int direction, shifts;
+    cout << "\nEnter the number of shifts -> ";
+    cin >> shifts;
+    cout << "Choose direction (1 - left, 2 - right, 3 - up, 4 - down) -> ";
+    cin >> direction;
+
+    switch (direction)
+    {
+        case 1:
+        {
+            shiftLeft(arr, RAWS, COLS, shifts);
+            break;
+        }
+
+        case 2:
+        {
+            shiftRight(arr, RAWS, COLS, shifts);
+            break;
+        }
+
+        case 3:
+        {
+            shiftUp(arr, RAWS, COLS, shifts);
+            break;
+        }
+
+        case 4:
+        {
+            shiftDown(arr, RAWS, COLS, shifts);
+            break;
+        }
+
+        default:
+        {
+            cout << "Invalid direction!";
+            return 0;
+        }
+    }
+
+    cout << "\nArray after shift:\n";
+    printArray(arr, RAWS, COLS);
 
     return 0;
 }
